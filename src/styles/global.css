@@ -1,0 +1,2543 @@
+/* =====================================================================
+   НАБИЕВ АЙБЕК — ПОРТФОЛИО · Глобалдык стилдер
+   Мазмуну:
+     1. Түстөр жана өзгөрмөлөр (караңгы / жарык тема)
+     2. Негизги стилдер
+     3. Баскычтар жана шилтемелер
+     4. Жүктөө экраны (монитор + терминал)
+     5. Өзгөчө курсор
+     6. Меню (navbar)
+     7. Hero
+     8. Бөлүмдөр: Мен жөнүндө, Көндүмдөр, Долбоорлор, Тажрыйба, Байланыш
+     9. Footer
+    10. Скролл анимациялары (reveal)
+    11. Responsive
+    12. prefers-reduced-motion
+   ===================================================================== */
+
+/* ---------- 1. Түстөр жана өзгөрмөлөр ---------- */
+:root {
+  /* Караңгы тема (демейки): кара фон + неон көк/сыя */
+  --bg: #07070d;
+  --bg-2: #0d0d18;
+  --surface: rgba(255, 255, 255, 0.04);
+  --surface-2: rgba(255, 255, 255, 0.07);
+  --border: rgba(255, 255, 255, 0.09);
+  --text: #ecedf5;
+  --muted: #9a9cb3;
+  --accent: #22d3ee;
+  --accent-2: #8b5cf6;
+  --accent-3: #f472b6;
+  --gradient: linear-gradient(120deg, var(--accent), var(--accent-2) 60%, var(--accent-3));
+  --shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.6);
+  --glow: 0 0 40px rgba(34, 211, 238, 0.25);
+  --nav-bg: rgba(7, 7, 13, 0.7);
+
+  --font-display: 'Unbounded', 'Montserrat', system-ui, sans-serif;
+  --font-body: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+
+  --radius: 20px;
+  --radius-sm: 12px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --container: 1200px;
+  --gutter: clamp(16px, 4vw, 40px);
+
+  color-scheme: dark;
+}
+
+/* Жарык тема: ак фон + терең көк/сыя */
+:root[data-theme='light'] {
+  --bg: #f5f6fb;
+  --bg-2: #ffffff;
+  --surface: rgba(15, 18, 40, 0.035);
+  --surface-2: rgba(15, 18, 40, 0.06);
+  --border: rgba(15, 18, 40, 0.1);
+  --text: #0d0f1c;
+  --muted: #565b74;
+  --accent: #0891b2;
+  --accent-2: #6d28d9;
+  --accent-3: #db2777;
+  --shadow: 0 30px 60px -25px rgba(30, 30, 80, 0.25);
+  --glow: 0 0 40px rgba(8, 145, 178, 0.18);
+  --nav-bg: rgba(245, 246, 251, 0.75);
+  color-scheme: light;
+}
+
+/* ---------- 2. Негизги стилдер ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+html.is-loading,
+html.menu-open {
+  overflow: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.5s var(--ease), color 0.5s var(--ease);
+}
+
+/* Декоративдик элементтер (3D, marquee) барактын туурасынан ашпашы үчүн */
+main {
+  overflow-x: clip;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--accent);
+  color: #000;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.accent {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 700;
+}
+
+.section {
+  position: relative;
+  padding-block: clamp(80px, 12vw, 140px);
+}
+
+.section-title {
+  margin-bottom: clamp(40px, 6vw, 64px);
+}
+
+.section-title__index {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  color: var(--accent);
+  letter-spacing: 0.2em;
+  margin-bottom: 12px;
+}
+
+.section-title__index::after {
+  content: '';
+  display: inline-block;
+  width: 48px;
+  height: 1px;
+  margin-left: 12px;
+  vertical-align: middle;
+  background: var(--accent);
+}
+
+.section-title__text {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.section-title__sub {
+  margin-top: 12px;
+  color: var(--muted);
+  max-width: 520px;
+}
+
+/* ---------- Интерактивдүү фон: аврора + чекит-торчо ---------- */
+.bg-fx {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--bg); /* WebGL иштебесе — кадимки фон */
+}
+
+.bg-fx canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ---------- 3. Баскычтар жана шилтемелер ---------- */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 30px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), color 0.4s var(--ease),
+    border-color 0.4s var(--ease), translate 0.35s var(--ease);
+}
+
+.btn > * {
+  position: relative;
+  z-index: 1;
+}
+
+.btn--primary {
+  background: var(--gradient);
+  background-size: 200% 100%;
+  color: #fff;
+  box-shadow: 0 10px 30px -10px var(--accent-2);
+}
+
+/* Баскычтын үстүнөн жылтырак өтүп кетет */
+.btn--primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.45) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.8s var(--ease);
+}
+
+.btn--primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px -12px var(--accent-2);
+}
+
+.btn--primary:hover::after {
+  transform: translateX(120%);
+}
+
+.btn--ghost {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+}
+
+/* Ghost баскычы үстүнө келгенде төмөндөн толот */
+.btn--ghost::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--text);
+  transform: translateY(101%);
+  border-radius: inherit;
+  transition: transform 0.5s var(--ease);
+}
+
+.btn--ghost:hover {
+  color: var(--bg);
+  border-color: var(--text);
+  transform: translateY(-3px);
+}
+
+.btn--ghost:hover::before {
+  transform: translateY(0);
+}
+
+.btn--sm {
+  padding: 11px 20px;
+  font-size: 0.88rem;
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  transition: transform 0.4s var(--ease), color 0.3s, border-color 0.3s, background-color 0.3s;
+}
+
+.icon-btn:hover {
+  transform: rotate(-12deg) scale(1.08);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Астынан сызык чыгып келүүчү шилтеме */
+.link-underline {
+  position: relative;
+  font-weight: 600;
+  padding-bottom: 2px;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1.5px;
+  background: var(--gradient);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s var(--ease);
+}
+
+.link-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.chip__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  70% {
+    box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+  }
+}
+
+/* 3D tilt — useTilt хугу --rx/--ry өзгөрмөлөрүн коёт */
+.tilt {
+  position: relative;
+  transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transform-style: preserve-3d;
+  transition: transform 0.6s var(--ease);
+  will-change: transform;
+}
+
+.tilt.is-tilting {
+  transition: transform 0.12s linear;
+}
+
+/* Чычкандын ордуна жараша жылган жылтырак */
+.tilt__glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255, 255, 255, 0.18), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.tilt.is-tilting .tilt__glare {
+  opacity: 1;
+}
+
+/* ---------- 4. Жүктөө экраны: монитор + терминал ---------- */
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 16px;
+  background: var(--bg);
+  perspective: 1200px;
+  transition: opacity 0.6s var(--ease) 0.35s, visibility 0s 0.95s;
+}
+
+/* Чыгуу: экран тунук болуп, монитор чоңоюп "ичине киребиз" */
+.loader--leaving {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader__glow {
+  position: absolute;
+  width: min(900px, 120vw);
+  height: min(600px, 80vh);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, color-mix(in srgb, var(--accent-2) 30%, transparent), transparent 65%);
+  filter: blur(30px);
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  50% { transform: scale(1.1); opacity: 0.7; }
+}
+
+.monitor {
+  position: relative;
+  /* Чоңураак монитор: туурасы да, бийиктиги да экранга батат */
+  width: min(1060px, 100%, (100vh - 120px) * 1.45);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: 50% 40%;
+  animation: monitor-in 0.8s var(--ease) both;
+  transition: transform 0.9s cubic-bezier(0.7, 0, 0.3, 1);
+}
+
+/* Монитор төмөндөн 3D бурулуп чыгат */
+@keyframes monitor-in {
+  from {
+    opacity: 0;
+    transform: translateY(80px) rotateX(35deg) scale(0.85);
+  }
+}
+
+.loader--leaving .monitor {
+  transform: scale(3.2);
+}
+
+/* Монитордун экраны (түсү темага карабайт — бул түзмөк) */
+.monitor__screen {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  border: 10px solid #15161d;
+  outline: 1px solid rgba(255, 255, 255, 0.08);
+  background: #0a0d14;
+  overflow: hidden;
+  box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.6), 0 0 60px color-mix(in srgb, var(--accent) 25%, transparent);
+  position: relative;
+}
+
+/* Эски CRT мониторлордогудай сызыктар */
+.monitor__screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 3px);
+}
+
+.monitor__neck {
+  width: 16%;
+  height: 34px;
+  background: linear-gradient(#1d1f28, #121319);
+  clip-path: polygon(18% 0, 82% 0, 100% 100%, 0 100%);
+}
+
+.monitor__base {
+  width: 34%;
+  height: 10px;
+  border-radius: 10px 10px 4px 4px;
+  background: #1d1f28;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+.term__bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: #141822;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.term__dots {
+  display: flex;
+  gap: 7px;
+}
+
+.term__dots i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #ff5f57;
+}
+
+.term__dots i:nth-child(2) { background: #febc2e; }
+.term__dots i:nth-child(3) { background: #28c840; }
+
+.term__title {
+  flex: 1;
+  text-align: center;
+  margin-right: 45px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #7d8597;
+  font-variant-numeric: tabular-nums;
+}
+
+.term__body {
+  flex: 1;
+  padding: clamp(12px, 2.6vw, 30px);
+  font-family: var(--font-mono);
+  font-size: clamp(0.68rem, 1.45vw, 1.15rem);
+  line-height: 1.75;
+  color: #e6edf3;
+  overflow: hidden;
+  text-align: left;
+}
+
+.term__line {
+  white-space: pre-wrap;
+  word-break: break-word;
+  animation: line-in 0.25s ease-out;
+}
+
+@keyframes line-in {
+  from { opacity: 0; transform: translateY(4px); }
+}
+
+.term__user { color: #4ade80; }
+.term__path { color: #22d3ee; }
+.term__out--ok { color: #4ade80; }
+.term__out--info { color: #a78bfa; }
+.term__out--muted { color: #6b7280; }
+.term__bar-empty { color: #374151; }
+
+.term__caret {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.1em;
+  vertical-align: -0.2em;
+  background: #22d3ee;
+  box-shadow: 0 0 8px #22d3ee;
+  animation: blink 1s steps(1) infinite;
+}
+
+.loader__footer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  animation: monitor-in 0.8s var(--ease) 0.2s both;
+}
+
+.loader__bar {
+  width: min(260px, 70vw);
+  height: 2px;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.loader__bar span {
+  display: block;
+  height: 100%;
+  background: var(--gradient);
+  transform-origin: left;
+}
+
+
+/* ---------- 😈 Пранк: "хакердик чабуул" ---------- */
+.term__out--danger { color: #f87171; font-weight: 700; }
+
+/* Телефондо жүктөө мониторунун экраны тик — көбүрөөк сап батат */
+@media (max-width: 640px) {
+  .loader .monitor__screen {
+    aspect-ratio: 3 / 4;
+  }
+}
+
+/* Пранктын аягы (whoami, hack --undo...) — чоңураак шрифт */
+.term__body--finale {
+  font-size: clamp(0.78rem, 1.75vw, 1.4rem);
+  line-height: 1.85;
+}
+.term__out--warn { color: #fbbf24; }
+.term__user--hacker { color: #ef4444; }
+
+/* Экран кызарат */
+.loader--hacked .monitor__screen {
+  background: #160307;
+  border-color: #2a0a10;
+  box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.6), 0 0 90px rgba(239, 68, 68, 0.55);
+  animation: hack-shake 0.4s steps(2) 2, hack-glitch 2.2s steps(1) 0.8s infinite;
+}
+
+.loader--hacked .term__bar {
+  background: #2a0912;
+}
+
+.loader--hacked .term__title {
+  color: #f87171;
+  font-weight: 700;
+  animation: blink 0.8s steps(1) infinite;
+}
+
+/* Хроматикалык аберрация — "бузулган" экрандай */
+.loader--hacked .term__body {
+  text-shadow: 2px 0 rgba(255, 0, 60, 0.55), -2px 0 rgba(0, 255, 255, 0.35);
+}
+
+.loader--hacked .loader__glow {
+  background: radial-gradient(ellipse, rgba(239, 68, 68, 0.35), transparent 65%);
+}
+
+.loader--hacked .loader__bar span {
+  background: #ef4444;
+}
+
+/* Чабуул башталганда бүт экран бир жолу кызыл жаркылдайт */
+.loader__flash {
+  position: absolute;
+  inset: 0;
+  background: rgba(239, 68, 68, 0.35);
+  pointer-events: none;
+  animation: hack-flash 0.7s ease-out forwards;
+}
+
+@keyframes hack-flash {
+  0%, 30% { opacity: 1; }
+  15% { opacity: 0.2; }
+  100% { opacity: 0; }
+}
+
+@keyframes hack-shake {
+  0% { transform: translate(-6px, 3px) rotate(-0.6deg); }
+  50% { transform: translate(6px, -3px) rotate(0.6deg); }
+  100% { transform: none; }
+}
+
+/* Мезгил-мезгили менен экран "тилкеленип" жылат */
+@keyframes hack-glitch {
+  0%, 86%, 100% { clip-path: none; transform: none; filter: none; }
+  88% { clip-path: inset(12% 0 58% 0); transform: translateX(-10px); filter: hue-rotate(90deg); }
+  90% { clip-path: inset(62% 0 8% 0); transform: translateX(10px); }
+  92% { clip-path: inset(30% 0 40% 0); transform: translateX(-4px); filter: invert(0.1); }
+  94% { clip-path: none; transform: translateX(3px); }
+}
+
+/* Толук экрандуу фазаларда монитор жашырылат */
+.loader--overlay .monitor {
+  opacity: 0;
+}
+
+.loader--overlay .loader__bar {
+  visibility: hidden;
+}
+
+.loader__footer {
+  z-index: 20;
+}
+
+
+
+/* ---- 💀 Бүт экранды "басып алуу" ---- */
+.prank-takeover {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, #2a0006 0%, #050000 70%);
+  color: #ff2d2d;
+  font-family: var(--font-mono);
+  animation: takeover-in 0.25s steps(3), takeover-flicker 2.3s steps(1) infinite;
+}
+
+@keyframes takeover-in {
+  0% { opacity: 0; transform: scale(1.08); }
+  50% { opacity: 1; filter: invert(1); }
+}
+
+/* Жеңил жылтылдоо (ашыкча эмес) */
+@keyframes takeover-flicker {
+  0%, 92%, 100% { opacity: 1; }
+  94% { opacity: 0.75; }
+  96% { opacity: 1; }
+  97% { opacity: 0.85; }
+}
+
+/* CRT сызыктары + четтеринин караңгылыгы */
+.prank-takeover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.35) 0 1px, transparent 1px 3px),
+    radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.8) 100%);
+}
+
+.prank-files {
+  position: absolute;
+  inset: 0;
+  padding: 0 16px;
+  font-size: 0.78rem;
+  line-height: 1.7;
+  white-space: nowrap;
+  opacity: 0.28;
+  animation: files-scroll 2.6s linear infinite;
+}
+
+.prank-files__x {
+  color: #fff;
+  background: #b91c1c;
+  padding: 0 4px;
+  margin-right: 6px;
+}
+
+@keyframes files-scroll {
+  to { transform: translateY(-50%); }
+}
+
+.prank-center {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  text-align: center;
+}
+
+.prank-skull {
+  font-size: clamp(7px, 1.3vw, 13px);
+  line-height: 1.15;
+  color: #ff2d2d;
+  text-shadow: 0 0 12px rgba(255, 45, 45, 0.8);
+  animation: skull-pulse 0.9s ease-in-out infinite;
+}
+
+@keyframes skull-pulse {
+  50% { transform: scale(1.06); text-shadow: 0 0 24px #ff2d2d; }
+}
+
+/* Глитч аталыш: эки түстүү "көлөкө" тилкелер менен */
+.prank-title {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 6vw, 4.4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: #fff;
+  letter-spacing: 0.02em;
+}
+
+.prank-title::before,
+.prank-title::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+}
+
+.prank-title::before {
+  color: #ff003c;
+  transform: translateX(-3px);
+  clip-path: inset(0 0 55% 0);
+  animation: title-glitch 1.1s steps(2) infinite;
+}
+
+.prank-title::after {
+  color: #00fff9;
+  transform: translateX(3px);
+  clip-path: inset(55% 0 0 0);
+  animation: title-glitch 0.9s steps(2) infinite reverse;
+}
+
+@keyframes title-glitch {
+  0% { transform: translate(-4px, 0); }
+  25% { transform: translate(4px, -2px); clip-path: inset(10% 0 60% 0); }
+  50% { transform: translate(-2px, 2px); clip-path: inset(70% 0 5% 0); }
+  75% { transform: translate(3px, 0); clip-path: inset(40% 0 35% 0); }
+  100% { transform: translate(0, 0); }
+}
+
+.prank-info {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 4px 18px;
+  padding: 12px 18px;
+  border: 1px solid rgba(255, 45, 45, 0.6);
+  background: rgba(40, 0, 6, 0.75);
+  font-size: clamp(0.72rem, 1.6vw, 0.9rem);
+  text-align: left;
+}
+
+.prank-info span {
+  color: rgba(255, 120, 120, 0.8);
+}
+
+.prank-info b {
+  color: #fff;
+  font-weight: 500;
+}
+
+.prank-count-label {
+  margin-top: 6px;
+  font-size: clamp(0.8rem, 1.8vw, 1rem);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.prank-count {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 12vw, 7rem);
+  font-weight: 800;
+  line-height: 1;
+  color: #ff2d2d;
+  text-shadow: 0 0 30px rgba(255, 45, 45, 0.9);
+  animation: count-pop 0.5s var(--ease);
+}
+
+@keyframes count-pop {
+  from { transform: scale(1.8); opacity: 0.3; }
+}
+
+/* ---- 🟦 Көк экран (BSOD) ---- */
+.prank-bsod {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+  padding: 8vh max(16px, 10vw);
+  background: #0078d7;
+  color: #fff;
+  font-family: 'Segoe UI', var(--font-body);
+  text-align: left;
+}
+
+.prank-bsod__face {
+  font-size: clamp(5rem, 14vw, 10rem);
+  line-height: 1;
+}
+
+.prank-bsod p {
+  max-width: 760px;
+  font-size: clamp(1rem, 2.4vw, 1.6rem);
+  line-height: 1.4;
+}
+
+.prank-bsod__pct {
+  font-variant-numeric: tabular-nums;
+}
+
+.prank-bsod__row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* QR-код сыяктуу квадрат */
+.prank-bsod__qr {
+  flex: none;
+  width: 84px;
+  height: 84px;
+  background: conic-gradient(#fff 25%, #0078d7 0 50%, #fff 0 75%, #0078d7 0) 0 0 / 14px 14px;
+  border: 6px solid #fff;
+}
+
+.prank-bsod small {
+  font-size: clamp(0.72rem, 1.5vw, 0.9rem);
+  opacity: 0.9;
+}
+
+/* ---- ⬛ Караңгылык ---- */
+.prank-blackout {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: #000;
+}
+
+
+/* ---------- 5. Өзгөчө курсор ---------- */
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none !important;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: var(--accent);
+}
+
+.cursor-ring {
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border: 1.5px solid var(--accent);
+  mix-blend-mode: difference;
+}
+
+/* Шакектин өлчөмү ички элементте эмес — scale менен (transform JS'те ээленген) */
+.cursor-ring::before {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+  transform: scale(0.4);
+  transition: transform 0.35s var(--ease), opacity 0.35s;
+}
+
+.cursor-ring.is-hover {
+  border-color: transparent;
+}
+
+.cursor-ring.is-hover::before {
+  opacity: 0.25;
+  transform: scale(1.8);
+}
+
+.cursor-ring.is-pressed::before {
+  opacity: 0.45;
+  transform: scale(1.2);
+}
+
+.cursor-dot.is-hidden,
+.cursor-ring.is-hidden {
+  opacity: 0;
+}
+
+/* ---------- 6. Меню ---------- */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  transition: background-color 0.4s var(--ease), border-color 0.4s, backdrop-filter 0.4s;
+  border-bottom: 1px solid transparent;
+}
+
+.nav--scrolled {
+  background: var(--nav-bg);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  border-bottom-color: var(--border);
+}
+
+.nav__progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--gradient);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 76px;
+}
+
+.nav__logo {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.4rem;
+  letter-spacing: -0.02em;
+  transition: transform 0.4s var(--ease);
+}
+
+.nav__logo span {
+  color: var(--accent);
+}
+
+.nav__logo:hover {
+  transform: rotate(-6deg) scale(1.06);
+}
+
+.nav__links {
+  display: flex;
+  gap: 4px;
+}
+
+.nav__link {
+  position: relative;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--muted);
+  border-radius: 999px;
+  transition: color 0.3s, background-color 0.3s;
+}
+
+.nav__link:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+.nav__link.is-active {
+  color: var(--text);
+}
+
+.nav__link.is-active::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 2px;
+  width: 5px;
+  height: 5px;
+  margin-left: -2.5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.nav__actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: border-color 0.3s, transform 0.4s var(--ease), translate 0.35s var(--ease);
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+  transform: rotate(20deg);
+}
+
+.theme-toggle__icon {
+  display: grid;
+  animation: icon-in 0.6s var(--ease);
+}
+
+@keyframes icon-in {
+  from {
+    transform: rotate(-120deg) scale(0.3);
+    opacity: 0;
+  }
+}
+
+.burger {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.burger span {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: var(--text);
+  transition: transform 0.4s var(--ease);
+}
+
+.nav--open .burger span:first-child {
+  transform: translateY(3.75px) rotate(45deg);
+}
+
+.nav--open .burger span:last-child {
+  transform: translateY(-3.75px) rotate(-45deg);
+}
+
+/* ---------- 7. Hero ---------- */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-block: 120px 100px;
+}
+
+.hero__scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero__scene canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.hero__glow {
+  position: absolute;
+  z-index: 0;
+  width: 60vmax;
+  height: 60vmax;
+  right: -20vmax;
+  top: -10vmax;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent-2) 25%, transparent), transparent 60%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  pointer-events: none; /* 3D сахна чычканды кармай алышы үчүн */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 500px);
+  align-items: center;
+  gap: clamp(32px, 4vw, 64px);
+}
+
+/* ---------- Hero'догу монитор (код редактору) ---------- */
+.hero-monitor {
+  perspective: 1400px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s var(--ease) 0.5s, transform 1s var(--ease) 0.5s;
+}
+
+.is-started .hero-monitor {
+  opacity: 1;
+  transform: none;
+}
+
+.hero-monitor__inner {
+  --mx: 0;
+  --my: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Чычканды ээрчип 3D бурулат + жай калкып турат */
+  transform: rotateY(calc(-10deg + var(--mx) * 10deg)) rotateX(calc(4deg - var(--my) * 8deg));
+  transform-style: preserve-3d;
+  transition: transform 0.6s var(--ease);
+  animation: monitor-float 6s ease-in-out infinite;
+}
+
+@keyframes monitor-float {
+  50% { translate: 0 -14px; }
+}
+
+.hero-monitor__screen {
+  aspect-ratio: auto;
+  height: auto;
+}
+
+.hero-monitor__tab {
+  padding: 3px 12px;
+  border-radius: 6px 6px 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: #e6edf3;
+  background: #0a0d14;
+  border-top: 2px solid #22d3ee;
+}
+
+.hero-monitor__code {
+  min-height: 330px;
+  padding: 16px 16px 16px 0;
+  font-family: var(--font-mono);
+  font-size: clamp(0.7rem, 1.05vw, 0.86rem);
+  line-height: 1.8;
+  color: #e6edf3;
+  text-align: left;
+}
+
+.hero-monitor__line {
+  display: flex;
+  white-space: pre;
+}
+
+.hero-monitor__num {
+  flex: none;
+  width: 3.2em;
+  padding-right: 1.2em;
+  text-align: right;
+  color: #4b5563;
+  user-select: none;
+}
+
+/* Синтаксис түстөрү (VS Code стилинде) */
+.code--kw { color: #c084fc; }
+.code--str { color: #fbbf24; }
+.code--prop { color: #7dd3fc; }
+.code--fn { color: #4ade80; }
+.code--tag { color: #f472b6; }
+.code--cm { color: #6b7280; font-style: italic; }
+.code--p { color: #e6edf3; }
+
+/* Жазып жатканда курсор жыпылдабайт */
+.term__caret.is-typing {
+  animation: none;
+}
+
+.hero-monitor__status {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: #0a0d14;
+  background: linear-gradient(90deg, #22d3ee, #8b5cf6);
+}
+
+.hero__content a,
+.hero__content .chip {
+  pointer-events: auto;
+}
+
+.hero__hello {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 10px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+}
+
+/* Тегерек аватар: айланган градиент шакек + жашыл "онлайн" чекити */
+.hero__avatar {
+  position: relative;
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  padding: 2.5px;
+  background: conic-gradient(from 0deg, var(--accent), var(--accent-2), var(--accent-3), var(--accent));
+  animation: spin-ring 6s linear infinite;
+  pointer-events: auto;
+}
+
+.hero__avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: 35% 35%;
+  border: 2px solid var(--bg);
+  animation: spin-ring 6s linear infinite reverse; /* сүрөт өзү айланбайт */
+}
+
+.hero__avatar-dot {
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #22c55e;
+  border: 2px solid var(--bg);
+  animation: spin-ring 6s linear infinite reverse;
+}
+
+@keyframes spin-ring {
+  to { transform: rotate(360deg); }
+}
+
+.hero__wave {
+  display: inline-block;
+  transform-origin: 70% 70%;
+}
+
+.is-started .hero__wave {
+  animation: wave 2.4s ease-in-out 1s infinite;
+}
+
+@keyframes wave {
+  0%, 60%, 100% { transform: rotate(0); }
+  10%, 30% { transform: rotate(14deg); }
+  20% { transform: rotate(-8deg); }
+  40% { transform: rotate(-4deg); }
+  50% { transform: rotate(10deg); }
+}
+
+.hero__name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.8rem, 6.6vw, 6.4rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.hero__line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+}
+
+/* Экинчи сап — градиент менен (ар бир тамга градиенттин өз бөлүгүн алат) */
+.hero__line--outline .char {
+  color: transparent;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
+  background-size: 700% 100%;
+  background-position: calc((var(--ci) - 5) * 16%) 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Тамгалар төмөндөн бирден чыгат */
+.char {
+  display: inline-block;
+  transform: translateY(110%) rotate(8deg);
+  opacity: 0;
+  transition: transform 1s var(--ease), opacity 1s var(--ease), color 0.3s;
+  transition-delay: calc(var(--ci) * 45ms + 150ms);
+}
+
+.is-started .char,
+.is-started .hero__hello {
+  transform: none;
+  opacity: 1;
+}
+
+.hero__line .char:hover {
+  color: var(--accent);
+}
+
+.hero__role {
+  margin-top: 22px;
+  min-height: 1.6em;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.8vw, 1.9rem);
+  font-weight: 600;
+}
+
+.hero__typed {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero__caret {
+  display: inline-block;
+  width: 3px;
+  height: 1.1em;
+  margin-left: 4px;
+  vertical-align: -0.15em;
+  background: var(--accent);
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.hero__desc {
+  max-width: 520px;
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.6vw, 1.1rem);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 36px;
+}
+
+.hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 36px;
+}
+
+/* Hero'нун калган элементтери логотип чыккандан кийин кезек менен көрүнөт */
+.hero__role,
+.hero__desc,
+.hero__actions,
+.hero__meta {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+}
+
+.is-started .hero__role { transition-delay: 0.7s; }
+.is-started .hero__desc { transition-delay: 0.85s; }
+.is-started .hero__actions { transition-delay: 1s; }
+.is-started .hero__meta { transition-delay: 1.15s; }
+
+.is-started .hero__role,
+.is-started .hero__desc,
+.is-started .hero__actions,
+.is-started .hero__meta {
+  opacity: 1;
+  transform: none;
+}
+
+.hero__socials {
+  position: absolute;
+  z-index: 1;
+  left: var(--gutter);
+  bottom: 40px;
+  display: flex;
+  gap: 18px;
+  color: var(--muted);
+}
+
+.hero__socials a {
+  transition: color 0.3s, transform 0.4s var(--ease);
+}
+
+.hero__socials a:hover {
+  color: var(--accent);
+  transform: translateY(-4px);
+}
+
+.hero__scroll {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  bottom: 32px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+.hero__mouse {
+  width: 24px;
+  height: 38px;
+  border: 1.5px solid currentColor;
+  border-radius: 14px;
+  display: flex;
+  justify-content: center;
+  padding-top: 7px;
+}
+
+.hero__mouse span {
+  width: 3px;
+  height: 7px;
+  border-radius: 3px;
+  background: var(--accent);
+  animation: scroll-dot 1.8s var(--ease) infinite;
+}
+
+@keyframes scroll-dot {
+  0% { transform: translateY(0); opacity: 1; }
+  70% { transform: translateY(12px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 0; }
+}
+
+/* ---------- 8a. Мен жөнүндө ---------- */
+.about__grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: clamp(40px, 7vw, 100px);
+  align-items: center;
+}
+
+.about__media {
+  position: relative;
+}
+
+.mini-scene canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.about__scene {
+  position: absolute;
+  inset: -12%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.about__photo {
+  position: relative;
+  z-index: 1;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius);
+  padding: 2px;
+  background: var(--gradient);
+  box-shadow: var(--shadow), var(--glow);
+}
+
+.about__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% center; /* жүз көрүнүп турушу үчүн */
+  border-radius: calc(var(--radius) - 2px);
+}
+
+.about__badge {
+  position: absolute;
+  right: -16px;
+  bottom: 28px;
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  background: var(--nav-bg);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(14px);
+  font-size: 0.85rem;
+  color: var(--muted);
+  transform: translateZ(60px); /* tilt учурунда алдыга чыгып турат */
+  box-shadow: var(--shadow);
+}
+
+.about__badge strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.about__text > p {
+  color: var(--muted);
+  margin-bottom: 18px;
+  font-size: 1.05rem;
+}
+
+.about__text > p.about__lead {
+  font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+  line-height: 1.4;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.about__facts {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 32px 0;
+}
+
+.about__facts li {
+  padding: 16px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: border-color 0.3s, transform 0.4s var(--ease);
+}
+
+.about__facts li:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+
+.about__facts span {
+  display: block;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+.about__facts strong {
+  font-weight: 700;
+}
+
+.about__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px;
+}
+
+/* ---------- 8b. Көндүмдөр ---------- */
+.skills__groups {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.skills__group {
+  padding: 28px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+}
+
+.skills__group-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 22px;
+}
+
+.skills__list {
+  list-style: none;
+  display: grid;
+  gap: 18px;
+}
+
+.skill {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.skill__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  transition: transform 0.5s var(--ease), border-color 0.3s;
+}
+
+.skill:hover .skill__icon {
+  transform: rotate(-10deg) scale(1.1);
+  border-color: var(--accent);
+}
+
+.skill__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.skill__head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.92rem;
+  margin-bottom: 8px;
+}
+
+.skill__name {
+  font-weight: 700;
+}
+
+.skill__value {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.skill__bar {
+  height: 6px;
+  border-radius: 6px;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+
+/* Прогресс тилкеси элемент экранга киргенде гана толот */
+.skill__fill {
+  display: block;
+  height: 100%;
+  width: var(--level);
+  border-radius: inherit;
+  background: var(--gradient);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.4s var(--ease);
+  transition-delay: calc(var(--d, 0ms) + 250ms);
+}
+
+.skill.is-visible .skill__fill {
+  transform: scaleX(1);
+}
+
+.marquee {
+  margin-top: clamp(60px, 8vw, 100px);
+  padding-block: 22px;
+  border-block: 1px solid var(--border);
+  overflow: hidden;
+  transform: rotate(-2deg) scale(1.03);
+  background: var(--surface);
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+.marquee__item {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3vw, 2.4rem);
+  font-weight: 700;
+  padding-inline: 20px;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--muted);
+  transition: color 0.3s;
+}
+
+.marquee__item:hover {
+  color: var(--text);
+}
+
+.marquee__star {
+  color: var(--accent);
+  -webkit-text-stroke: 0;
+  margin-left: 20px;
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* ---------- 8c. Долбоорлор ---------- */
+.projects__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+/* Долбоорлордун саны так болбосо — акыркы карточка ортодо турат */
+@media (min-width: 901px) {
+  .projects__grid > .project-wrap:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc(50% - 14px);
+  }
+}
+
+.project {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.project:hover {
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+}
+
+.project__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.project__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s var(--ease);
+}
+
+.project:hover .project__media img {
+  transform: scale(1.08);
+}
+
+.project__num {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+}
+
+.project__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 26px;
+  transform: translateZ(40px); /* tilt учурунда мазмун тереңдикте "калкып" турат */
+}
+
+.project__title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.project__desc {
+  color: var(--muted);
+  font-size: 0.97rem;
+  margin-bottom: 18px;
+}
+
+.project__tech {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.project__tech li {
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.project__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+}
+
+/* ---------- 8d. Тажрыйба (timeline) ---------- */
+.timeline {
+  --progress: 0;
+  position: relative;
+  list-style: none;
+  display: grid;
+  gap: 40px;
+}
+
+/* Борбордогу сызык + скролл менен толгон градиент */
+.timeline::before,
+.timeline::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  border-radius: 2px;
+}
+
+.timeline::before {
+  background: var(--border);
+}
+
+.timeline::after {
+  background: var(--gradient);
+  transform: scaleY(var(--progress));
+  transform-origin: top;
+  box-shadow: 0 0 12px var(--accent);
+}
+
+.timeline__item {
+  position: relative;
+  width: 50%;
+}
+
+.timeline__item--left {
+  padding-right: 48px;
+}
+
+.timeline__item--right {
+  margin-left: 50%;
+  padding-left: 48px;
+}
+
+.timeline__dot {
+  position: absolute;
+  top: 28px;
+  z-index: 1;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 3px solid var(--accent);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 15%, transparent);
+}
+
+.timeline__item--left .timeline__dot { right: -8px; }
+.timeline__item--right .timeline__dot { left: -8px; }
+
+.timeline__card {
+  padding: 26px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  transition: transform 0.5s var(--ease), border-color 0.3s, box-shadow 0.5s;
+}
+
+.timeline__card:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent);
+  box-shadow: var(--glow);
+}
+
+.timeline__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.timeline__period {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  color: var(--accent);
+}
+
+.timeline__type {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--border);
+}
+
+.timeline__type--work { color: var(--accent-2); }
+.timeline__type--education { color: var(--accent-3); }
+
+.timeline__title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.timeline__place {
+  color: var(--text);
+  opacity: 0.8;
+  font-weight: 600;
+  font-size: 0.92rem;
+  margin: 6px 0 10px;
+}
+
+.timeline__desc {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* ---------- 8e. Байланыш ---------- */
+.contact {
+  overflow: hidden;
+}
+
+.contact__scene {
+  position: absolute;
+  right: -120px;
+  top: 40px;
+  width: 420px;
+  height: 420px;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.contact__grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: clamp(40px, 6vw, 80px);
+  align-items: start;
+}
+
+.contact__lead {
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
+  line-height: 1.5;
+  margin-bottom: 28px;
+}
+
+.contact__socials {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.social {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: transform 0.4s var(--ease), border-color 0.3s, background-color 0.3s;
+}
+
+.social:hover {
+  transform: translateX(8px);
+  border-color: var(--accent);
+  background: var(--surface-2);
+}
+
+.social__icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: 12px;
+  color: #fff;
+  background: var(--gradient);
+  transition: transform 0.5s var(--ease);
+}
+
+.social:hover .social__icon {
+  transform: rotate(-12deg) scale(1.08);
+}
+
+.social__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.social__text small {
+  color: var(--muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.social__text span {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.form {
+  padding: clamp(24px, 4vw, 40px);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 22px;
+}
+
+/* "Калкыган" label — талаага басканда жогору жылат */
+.field {
+  position: relative;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 22px 16px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.field textarea {
+  min-height: 140px;
+}
+
+.field label {
+  position: absolute;
+  left: 17px;
+  top: 16px;
+  color: var(--muted);
+  pointer-events: none;
+  transform-origin: left top;
+  transition: transform 0.3s var(--ease), color 0.3s;
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 15%, transparent);
+}
+
+.field input:focus + label,
+.field input:not(:placeholder-shown) + label,
+.field textarea:focus + label,
+.field textarea:not(:placeholder-shown) + label {
+  transform: translateY(-10px) scale(0.75);
+  color: var(--accent);
+}
+
+.field--error input,
+.field--error textarea {
+  border-color: #f43f5e;
+}
+
+.field__error {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.82rem;
+  color: #f43f5e;
+  animation: shake 0.4s;
+}
+
+@keyframes shake {
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.form__success {
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, #22c55e 12%, transparent);
+  border: 1px solid color-mix(in srgb, #22c55e 40%, transparent);
+  font-size: 0.92rem;
+  animation: icon-in 0.5s var(--ease);
+}
+
+/* ---------- 9. Footer ---------- */
+.footer {
+  border-top: 1px solid var(--border);
+  padding-block: 32px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ---------- Интерактивдүү терминал ---------- */
+html.terminal-open {
+  overflow: hidden;
+}
+
+.term-btn__icon {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--accent);
+}
+
+.term-btn:hover {
+  transform: none;
+}
+
+/* Hero'догу "Ctrl + K" кеңеши */
+.chip--kbd {
+  cursor: pointer;
+  transition: border-color 0.3s, color 0.3s;
+}
+
+.chip--kbd:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+kbd {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 2px 7px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.dev-terminal {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(3, 4, 10, 0.6);
+  backdrop-filter: blur(6px);
+  animation: fade-in 0.25s ease-out;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+}
+
+.dev-terminal__window {
+  width: min(760px, 100%);
+  height: min(520px, 80vh);
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #0a0d14;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.7), 0 0 60px color-mix(in srgb, var(--accent) 20%, transparent);
+  animation: terminal-in 0.4s var(--ease);
+}
+
+@keyframes terminal-in {
+  from { opacity: 0; transform: translateY(30px) scale(0.96); }
+}
+
+.dev-terminal__window .term__dots button {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #ff5f57;
+}
+
+.dev-terminal__window .term__dots i:nth-child(2) { background: #febc2e; }
+.dev-terminal__window .term__dots i:nth-child(3) { background: #28c840; }
+
+.dev-terminal__esc {
+  background: transparent;
+  color: #7d8597;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.dev-terminal__window .term__title {
+  margin-right: 0;
+}
+
+.dev-terminal__body {
+  overflow-y: auto;
+  font-size: clamp(0.78rem, 1.8vw, 0.9rem);
+}
+
+.dev-terminal__input {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+}
+
+.dev-terminal__input input {
+  flex: 1;
+  min-width: 0;
+  margin-left: 0.5ch;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #e6edf3;
+  font-family: var(--font-mono);
+  font-size: inherit;
+  caret-color: #22d3ee;
+}
+
+.term__cmd {
+  color: #22d3ee;
+  font-weight: 500;
+}
+
+.term__out--err { color: #f87171; }
+
+.term__link {
+  color: #7dd3fc;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.term__link:hover {
+  color: #fff;
+}
+
+/* Footer'деги Бишкектин сааты */
+.footer__clock {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer__clock strong {
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 10. Скролл анимациялары (fade + slide) ---------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+  transition-delay: var(--d, 0ms);
+}
+
+[data-reveal='left'] { transform: translateX(-50px); }
+[data-reveal='right'] { transform: translateX(50px); }
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- 11. Responsive ---------- */
+@media (max-width: 1024px) {
+  .skills__groups {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  /* Мобилдик меню — толук экран */
+  .burger {
+    display: flex;
+  }
+
+  .nav__links {
+    position: fixed;
+    inset: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--bg);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s var(--ease), visibility 0.4s;
+  }
+
+  .nav--open .nav__links {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav__link {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    padding: 10px 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s var(--ease), transform 0.5s var(--ease), color 0.3s;
+  }
+
+  .nav--open .nav__link {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(var(--i) * 60ms + 100ms);
+  }
+
+  .about__grid,
+  .contact__grid,
+  .hero__content {
+    grid-template-columns: 1fr;
+  }
+
+  .hero__name {
+    font-size: clamp(2.8rem, 13vw, 6rem);
+  }
+
+  .hero-monitor {
+    max-width: 480px;
+    width: 100%;
+    margin: 12px auto 0;
+  }
+
+  .hero-monitor__inner {
+    transform: none;
+  }
+
+  .hero-monitor__code {
+    min-height: 290px;
+    font-size: clamp(0.62rem, 2.6vw, 0.8rem);
+  }
+
+  .about__media {
+    max-width: 420px;
+    margin-inline: auto;
+    width: 100%;
+  }
+
+  .about__badge {
+    right: 12px;
+  }
+
+  .projects__grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Timeline телефондо сол жакта бир тилке */
+  .timeline::before,
+  .timeline::after {
+    left: 8px;
+  }
+
+  .timeline__item,
+  .timeline__item--right {
+    width: 100%;
+    margin-left: 0;
+    padding: 0 0 0 40px;
+  }
+
+  .timeline__item--left .timeline__dot,
+  .timeline__item--right .timeline__dot {
+    left: 0;
+    right: auto;
+  }
+
+  [data-reveal='left'],
+  [data-reveal='right'] {
+    transform: translateY(40px);
+  }
+
+  .hero__socials,
+  .chip--kbd {
+    display: none;
+  }
+
+  /* Телефондо 3D фон текстти жаап калбашы үчүн бүдөмүгүрөөк */
+  .hero__scene {
+    opacity: 0.55;
+  }
+
+  .contact__scene {
+    width: 280px;
+    height: 280px;
+    right: -100px;
+    opacity: 0.4;
+  }
+}
+
+@media (max-width: 640px) {
+  .skills__groups {
+    grid-template-columns: 1fr;
+  }
+
+  .skills__group {
+    padding: 22px;
+  }
+
+  .about__facts {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hero__actions .btn {
+    flex: 1 1 auto;
+  }
+
+  .hero__scroll {
+    display: none;
+  }
+
+
+  .project__body {
+    padding: 22px;
+  }
+}
+
+/* ---------- 12. Анимацияларды азайтуу ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  [data-reveal],
+  .char,
+  .hero__hello,
+  .hero__role,
+  .hero__desc,
+  .hero__actions,
+  .hero__meta {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .skill__fill {
+    transform: none;
+  }
+
+  .marquee__track {
+    animation: none;
+  }
+}
